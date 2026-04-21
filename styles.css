@@ -1,0 +1,355 @@
+:root {
+  --bg: #efe4d2;
+  --ink: #151515;
+  --muted: rgba(21, 21, 21, 0.66);
+  --card: rgba(255, 251, 244, 0.92);
+  --accent: #cb5b2d;
+  --accent-soft: #f2b694;
+  --line: rgba(21, 21, 21, 0.1);
+  --shadow: 0 24px 60px rgba(67, 35, 18, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(255, 245, 214, 0.9), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(203, 91, 45, 0.28), transparent 32%),
+    linear-gradient(160deg, #f5ede2 0%, #eadbc7 54%, #e4d2b7 100%);
+}
+
+button {
+  font: inherit;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.phone-frame {
+  width: min(100%, 420px);
+  min-height: 780px;
+  border-radius: 36px;
+  background: rgba(255, 252, 247, 0.62);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: var(--shadow);
+  padding: 22px 18px 18px;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 14px;
+  overflow: hidden;
+  position: relative;
+}
+
+.phone-frame::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 28px;
+  border: 1px solid rgba(21, 21, 21, 0.06);
+  pointer-events: none;
+}
+
+.bottom-bar,
+.gesture-hints {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.card-summary,
+.card-source {
+  margin: 0;
+}
+
+.card-summary,
+.card-source {
+  line-height: 1.45;
+}
+
+.ghost-button,
+.bar-button,
+.link-button {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.ghost-button:hover,
+.bar-button:hover,
+.link-button:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.deck-wrap {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 14px;
+  min-height: 0;
+}
+
+.deck-shell {
+  position: relative;
+  min-height: 640px;
+}
+
+.deck {
+  position: relative;
+  min-height: 640px;
+  isolation: isolate;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.peek-card {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 28px;
+  padding: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.04)),
+    rgba(255, 251, 244, 0.84);
+  border: 1px solid rgba(21, 21, 21, 0.06);
+  box-shadow: 0 18px 40px rgba(21, 21, 21, 0.06);
+  display: grid;
+  grid-template-rows: 220px auto auto 1fr auto;
+  gap: 12px;
+  transform: translate3d(12px, 0, 0) scale(0.985);
+  opacity: 0;
+  transition: transform 220ms ease, opacity 220ms ease;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.peek-card.is-visible {
+  opacity: 0.9;
+}
+
+.peek-card.is-transitioning {
+  transform: translate3d(0, 0, 0) scale(1);
+  opacity: 1;
+}
+
+.peek-image {
+  width: calc(100% + 32px);
+  margin: -16px -16px 0;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.94);
+}
+
+.peek-meta,
+.peek-source {
+  color: var(--muted);
+}
+
+.peek-meta,
+.peek-title,
+.peek-summary,
+.peek-source {
+  margin: 0;
+}
+
+.peek-title {
+  font-size: clamp(1.25rem, 6vw, 1.7rem);
+  line-height: 1.03;
+}
+
+.peek-summary,
+.peek-source,
+.peek-meta {
+  line-height: 1.4;
+}
+
+.news-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  padding: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.02)),
+    var(--card);
+  border: 1px solid rgba(21, 21, 21, 0.08);
+  box-shadow: 0 18px 40px rgba(21, 21, 21, 0.08);
+  display: grid;
+  grid-template-rows: 220px auto auto 1fr auto;
+  gap: 12px;
+  transform-origin: center center;
+  transition: transform 260ms ease, opacity 260ms ease;
+  touch-action: none;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  contain: layout paint style;
+}
+
+.news-card:nth-child(1) {
+  z-index: 4;
+}
+
+.news-card:nth-child(2) {
+  display: none;
+}
+
+.news-card:nth-child(3) {
+  display: none;
+}
+
+.news-card.leaving-left {
+  transform: translateX(-128%) rotate(-10deg);
+}
+
+.news-card.leaving-right {
+  transform: translateX(128%) rotate(10deg);
+}
+
+
+.card-image {
+  width: calc(100% + 32px);
+  margin: -16px -16px 0;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.source-badge {
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100% - 56px);
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255, 252, 247, 0.88);
+  border: 1px solid rgba(21, 21, 21, 0.08);
+  box-shadow: 0 10px 24px rgba(21, 21, 21, 0.08);
+}
+
+.source-badge-peek {
+  top: 24px;
+  left: 24px;
+}
+
+.source-badge span {
+  font-size: 0.86rem;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.source-favicon {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  flex: 0 0 auto;
+}
+
+.card-meta {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.meta-pill {
+  display: none;
+}
+
+.card-title {
+  font-size: clamp(1.4rem, 6.8vw, 2rem);
+  line-height: 1.02;
+  margin: 0;
+}
+
+.card-summary {
+  font-size: 1rem;
+  max-width: 30ch;
+}
+
+.card-source {
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.gesture-hints {
+  font-size: 0.78rem;
+  color: var(--muted);
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.bottom-bar {
+  justify-content: stretch;
+}
+
+.bar-button {
+  flex: 1;
+}
+
+.bar-button.primary {
+  background: var(--accent);
+  color: #fff7f2;
+  border-color: transparent;
+}
+
+.link-button {
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+}
+
+.dragging {
+  transition: none;
+}
+
+.loading-state,
+.error-state {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 24px;
+  border-radius: 28px;
+  border: 1px solid rgba(21, 21, 21, 0.08);
+  background: rgba(255, 251, 244, 0.9);
+  color: var(--muted);
+}
+
+@media (max-width: 480px) {
+  .app-shell {
+    padding: 0;
+  }
+
+  .phone-frame {
+    width: 100%;
+    min-height: 100vh;
+    border-radius: 0;
+    padding-top: 26px;
+  }
+}

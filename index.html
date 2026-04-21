@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>World Drift</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="phone-frame">
+        <section class="deck-wrap">
+          <div class="deck-shell">
+            <div class="peek-card" id="peekCard" aria-hidden="true"></div>
+            <div class="deck" id="deck"></div>
+          </div>
+          <div class="gesture-hints">
+            <span>Sol: Gec</span>
+            <span>Sag: Buna benzer getir</span>
+            <span>Tap: Kaynaga git</span>
+          </div>
+        </section>
+
+        <nav class="bottom-bar">
+          <button class="bar-button" id="skipButton" type="button">Skip</button>
+          <button class="bar-button primary" id="boostButton" type="button">Boost</button>
+          <a class="bar-button link-button" id="sourceButton" href="#" target="_blank" rel="noreferrer"
+            >Source</a
+          >
+        </nav>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
