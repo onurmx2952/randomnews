@@ -1,46 +1,41 @@
 name: Refresh News Data
 
 on:
-  workflow_dispatch:
   schedule:
-    - cron: "0 */12 * * *"
-
-permissions:
-  contents: write
-
-concurrency:
-  group: refresh-news-data
-  cancel-in-progress: false
+    - cron: "0 */6 * * *"   # Her 6 saatte bir çalışır
+  workflow_dispatch:        # Elle tetikleme
 
 jobs:
-  refresh:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
+      - name: Repo'yu çek
+        uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Python kur
+        uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Generate latest news snapshot
-        run: python generate_news_json.py
-
-      - name: Commit refreshed data
-        shell: bash
+      - name: Bağımlılıkları kur
         run: |
-          if git diff --quiet -- news-data.json; then
-            echo "No data changes to commit."
-            exit 0
-          fi
+          pip install -r requirements.txt
 
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add news-data.json
-          git commit -m "chore: refresh news data"
-          git push
+      - name: Haberleri çek
+        run: |
+          python generate_news_json.py
+
+      - name: Değişiklik varsa commit & push
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+          git add news.json
+
+          if git diff --cached --quiet; then
+            echo "Değişiklik yok"
+          else
+            git commit -m "news.json otomatik güncellendi"
+            git push
+          fi
