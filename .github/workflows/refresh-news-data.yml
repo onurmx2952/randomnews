@@ -2,8 +2,8 @@ name: Refresh News Data
 
 on:
   schedule:
-    - cron: "0 */6 * * *"   # Her 6 saatte bir çalışır
-  workflow_dispatch:        # Elle tetikleme
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -26,7 +26,14 @@ jobs:
         run: |
           python generate_news_json.py
 
-      - name: Değişiklik varsa commit & push
+      - name: Dosya var mı kontrol et
+        run: |
+          if [ ! -f news.json ]; then
+            echo "news.json oluşmadı ❌"
+            exit 1
+          fi
+
+      - name: Commit & push
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
@@ -36,6 +43,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Değişiklik yok"
           else
-            git commit -m "news.json otomatik güncellendi"
+            git commit -m "news.json güncellendi"
             git push
           fi
